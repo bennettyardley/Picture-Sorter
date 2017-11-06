@@ -15,17 +15,20 @@ public class PictureSorter{
          //Folder of unsorted pictures
          File dir = new File("ENTERPATH");
          ArrayList <String> picList = new ArrayList<String>(); 
+         //Adds pictures to picList
          if (dir.isDirectory()) { 
          String[] files = dir.list(); 
           for (String file : files) {
              picList.add(file); 
           }
          }
+         //Copies pictures from original folder to new, sorted folder
          for(int i = 0; i < picList.size()-1; i++){
             //Folder of unsorted pictures
             Path picPath = Paths.get("ENTERPATH" + picList.get(i));
             try{
                BasicFileAttributes attr = Files.readAttributes(picPath, BasicFileAttributes.class);
+               //Creates new folder based on picture date
                String time = attr.creationTime().toString();
                int loc = time.indexOf('T');
                String cutTime = time.substring(0,loc);
@@ -34,6 +37,7 @@ public class PictureSorter{
                Path FROM = Paths.get("ENTERPATH" + picList.get(i));
                //Folder where the sorted pictures will go to
                Path TO = Paths.get("ENTERPATH" + cutTime + "\\" + picList.get(i)); 
+               //Copies file
                Files.copy(FROM, TO);             
             }
             catch(IOException e){
